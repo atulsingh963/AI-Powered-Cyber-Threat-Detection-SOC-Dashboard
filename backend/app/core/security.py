@@ -1,18 +1,28 @@
+import hashlib
+import os
 from datetime import datetime, timedelta, timezone
 from typing import Optional, Any, Union
 from jose import jwt, JWTError
-from passlib.context import CryptContext
 from backend.app.core.config import settings
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
 
 
 def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+    """Generates PBKDF2 HMAC SHA256 password hash."""
+    salt = os.urandom(16)
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+    return salt.hex() + ":" + key.hex()
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verifies plain password against PBKDF2 HMAC SHA256 stored hash."""
+    try:
+        salt_hex, key_hex = hashed_password.split(":")
+        salt = bytes.fromhex(salt_hex)
+        key = bytes.fromhex(key_hex)
+        new_key = hashlib.pbkdf2_hmac('sha256', plain_password.encode('utf-8'), salt, 100000)
+        return new_key == key
+    except Exception:
+        return False
 
 
 def create_access_token(subject: Union[str, Any], expires_delta: Optional[timedelta] = None) -> str:

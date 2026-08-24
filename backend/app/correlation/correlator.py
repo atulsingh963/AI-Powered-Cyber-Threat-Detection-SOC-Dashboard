@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 from typing import List, Optional, Tuple
 from sqlalchemy.orm import Session
-from backend.app.models.models import SecurityEvent, Detection, Alert, Incident, IncidentEvent
+from backend.app.models.models import SecurityEvent, Detection, Alert, Incident, incident_events
 
 
 class Correlator:

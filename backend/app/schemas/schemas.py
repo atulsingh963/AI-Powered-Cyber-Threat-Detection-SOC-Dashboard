@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional, List, Dict, Any
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, ConfigDict
 
 
 # Auth Schemas
@@ -18,8 +18,7 @@ class UserResponse(UserBase):
     id: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserLogin(BaseModel):
@@ -56,8 +55,7 @@ class SecurityEventResponse(SecurityEventCreate):
     id: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # Detection Schemas
@@ -72,8 +70,7 @@ class DetectionResponse(BaseModel):
     reason: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # Alert Schemas
@@ -90,8 +87,7 @@ class AlertResponse(BaseModel):
     occurrence_count: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # Note Schemas
@@ -107,8 +103,7 @@ class InvestigationNoteResponse(BaseModel):
     note: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # AI Analysis Schemas
@@ -124,8 +119,7 @@ class AIAnalysisResponse(BaseModel):
     is_fallback: bool
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # Incident Schemas
@@ -145,8 +139,7 @@ class IncidentResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class IncidentDetailResponse(IncidentResponse):
@@ -173,8 +166,7 @@ class DetectionRuleResponse(BaseModel):
     enabled: bool
     configuration: Optional[Dict[str, Any]] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class DetectionRuleUpdate(BaseModel):
